@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TypeMaster — Advanced Typing Academy</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#101214;
+    --panel:#181b1f;
+    --panel2:#20242a;
+    --text:#e8eaed;
+    --muted:#858b94;
+    --accent:#f0b90b;
+    --good:#57d68d;
+    --bad:#ff5c6c;
+    --border:#2b3037;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+    font:inherit;
+}
+
+.app{
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+}
+
+/* HEADER */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    gap:20px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:var(--accent);
+}
+
+.logo span{
+    color:var(--text);
+}
+
+.header-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.icon-btn{
+    background:var(--panel);
+    color:var(--text);
+    border:1px solid var(--border);
+    padding:10px 13px;
+    border-radius:8px;
+}
+
+/* NAV */
+
+.nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.nav button{
+    background:var(--panel);
+    color:var(--muted);
+    padding:11px 17px;
+    border-radius:7px;
+    border:1px solid var(--border);
+}
+
+.nav button.active{
+    color:#111;
+    background:var(--accent);
+}
+
+/* SECTIONS */
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+/* TEST */
+
+.mode-bar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.mode-btn{
+    background:var(--panel);
+    color:var(--muted);
+    border:1px solid var(--border);
+    padding:10px 15px;
+    border-radius:7px;
+}
+
+.mode-btn.active{
+    background:var(--accent);
+    color:#111;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:16px;
+    border-radius:9px;
+}
+
+.stat small{
+    color:var(--muted);
+}
+
+.stat strong{
+    display:block;
+    margin-top:5px;
+    font-size:25px;
+    color:var(--accent);
+}
+
+.typing-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:30px;
+}
+
+.words{
+    font-size:25px;
+    line-height:1.9;
+    color:#686e77;
+    min-height:180px;
+    user-select:none;
+}
+
+.letter.correct{
+    color:var(--good);
+}
+
+.letter.wrong{
+    color:var(--bad);
+    text-decoration:underline;
+}
+
+.letter.current{
+    border-left:2px solid var(--accent);
+}
+
+#typingInput{
+    position:absolute;
+    left:-9999px;
+}
+
+.test-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:20px;
+}
+
+.primary{
+    background:var(--accent);
+    color:#111;
+    padding:12px 20px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.secondary{
+    background:var(--panel2);
+    color:var(--text);
+    padding:12px 20px;
+    border-radius:8px;
+    border:1px solid var(--border);
+}
+
+/* KEYBOARD */
+
+.keyboard{
+    margin-top:25px;
+    background:var(--panel);
+    padding:20px;
+    border-radius:12px;
+    border:1px solid var(--border);
+}
+
+.key-row{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin:6px 0;
+}
+
+.key{
+    min-width:48px;
+    height:45px;
+    padding:8px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:6px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#aaa;
+    font-weight:bold;
+}
+
+.key.active-key{
+    background:var(--accent);
+    color:#111;
+}
+
+.key.correct-key{
+    background:var(--good);
+    color:#111;
+}
+
+.space{
+    width:300px;
+}
+
+/* FINGER GUIDE */
+
+.finger-guide{
+    margin-top:25px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px;
+}
+
+.finger-guide h2{
+    margin-bottom:15px;
+}
+
+.finger-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.finger{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    padding:14px;
+    border-radius:8px;
+}
+
+.finger b{
+    color:var(--accent);
+}
+
+.finger span{
+    display:block;
+    margin-top:5px;
+    color:var(--muted);
+}
+
+/* DASHBOARD */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.big-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px;
+}
+
+.big-card h3{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.big-card strong{
+    display:block;
+    font-size:32px;
+    margin-top:8px;
+    color:var(--accent);
+}
+
+.progress{
+    height:10px;
+    background:#2a2d31;
+    border-radius:10px;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.progress div{
+    height:100%;
+    width:0;
+    background:var(--accent);
+}
+
+/* LESSONS */
+
+.lessons{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.lesson{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px;
+}
+
+.lesson h3{
+    margin-bottom:8px;
+}
+
+.lesson p{
+    color:var(--muted);
+    margin-bottom:15px;
+}
+
+.lesson.locked{
+    opacity:.45;
+}
+
+.lesson button{
+    background:var(--accent);
+    padding:9px 14px;
+    border-radius:6px;
+}
+
+/* ACHIEVEMENTS */
+
+.achievements{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.badge{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px;
+}
+
+.badge.locked{
+    opacity:.35;
+}
+
+.badge-icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+/* HISTORY */
+
+.history{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--panel);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.history th,
+.history td{
+    padding:14px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+}
+
+.history th{
+    color:var(--accent);
+}
+
+/* RESULT */
+
+.result{
+    margin-top:20px;
+    background:var(--panel);
+    padding:25px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    display:none;
+}
+
+.result h2{
+    color:var(--accent);
+    margin-bottom:15px;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .lessons,
+    .achievements{
+        grid-template-columns:1fr;
+    }
+
+    .finger-grid{
+        grid-template-columns:1fr;
+    }
+
+    .words{
+        font-size:20px;
+    }
+
+    .key{
+        min-width:30px;
+        height:38px;
+        font-size:12px;
+    }
+
+    .space{
+        width:160px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div class="logo">
+        Type<span>Master</span> ⌨️
+    </div>
+
+    <div class="header-right">
+        <button class="icon-btn" onclick="toggleTheme()">🌙</button>
+        <button class="icon-btn" onclick="toggleSound()">🔊</button>
+    </div>
+</header>
+
+<div class="nav">
+
+<button class="active" onclick="showSection('test',this)">
+    ⌨️ Typing Test
+</button>
+
+<button onclick="showSection('learn',this)">
+    🎓 Learn
+</button>
+
+<button onclick="showSection('dashboard',this)">
+    📊 Dashboard
+</button>
+
+<button onclick="showSection('achievements',this)">
+    🏆 Achievements
+</button>
+
+<button onclick="showSection('history',this)">
+    📈 History
+</button>
+
+</div>
+
+
+<!-- ================= TYPING TEST ================= -->
+
+<section id="test" class="section active">
+
+<div class="mode-bar">
+
+<button class="mode-btn active" data-time="15">
+15 sec
+</button>
+
+<button class="mode-btn" data-time="30">
+30 sec
+</button>
+
+<button class="mode-btn" data-time="60">
+60 sec
+</button>
+
+<button class="mode-btn" data-time="120">
+120 sec
+</button>
+
+<button class="mode-btn" data-time="0">
+Practice
+</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<small>TIME</small>
+<strong id="time">15</strong>
+</div>
+
+<div class="stat">
+<small>WPM</small>
+<strong id="wpm">0</strong>
+</div>
+
+<div class="stat">
+<small>ACCURACY</small>
+<strong id="accuracy">100%</strong>
+</div>
+
+<div class="stat">
+<small>MISTAKES</small>
+<strong id="mistakes">0</strong>
+</div>
+
+<div class="stat">
+<small>XP</small>
+<strong id="xp">0</strong>
+</div>
+
+</div>
+
+
+<div class="typing-card"
+onclick="focusInput()">
+
+<div id="words" class="words"></div>
+
+<input
+id="typingInput"
+autocomplete="off"
+spellcheck="false"
+autocorrect="off"
+autocapitalize="off">
+
+</div>
+
+
+<div class="test-actions">
+
+<button class="primary"
+onclick="restartTest()">
+↻ Restart
+</button>
+
+<button class="secondary"
+onclick="newText()">
+New Text
+</button>
+
+</div>
+
+
+<div class="keyboard">
+
+<h3 style="text-align:center;margin-bottom:15px;">
+Virtual Keyboard
+</h3>
+
+<div class="key-row">
+
+<div class="key" data-key="q">Q</div>
+<div class="key" data-key="w">W</div>
+<div class="key" data-key="e">E</div>
+<div class="key" data-key="r">R</div>
+<div class="key" data-key="t">T</div>
+<div class="key" data-key="y">Y</div>
+<div class="key" data-key="u">U</div>
+<div class="key" data-key="i">I</div>
+<div class="key" data-key="o">O</div>
+<div class="key" data-key="p">P</div>
+
+</div>
+
+<div class="key-row">
+
+<div class="key" data-key="a">A</div>
+<div class="key" data-key="s">S</div>
+<div class="key" data-key="d">D</div>
+<div class="key" data-key="f">F</div>
+<div class="key" data-key="g">G</div>
+<div class="key" data-key="h">H</div>
+<div class="key" data-key="j">J</div>
+<div class="key" data-key="k">K</div>
+<div class="key" data-key="l">L</div>
+<div class="key" data-key=";">;</div>
+
+</div>
+
+<div class="key-row">
+
+<div class="key" data-key="z">Z</div>
+<div class="key" data-key="x">X</div>
+<div class="key" data-key="c">C</div>
+<div class="key" data-key="v">V</div>
+<div class="key" data-key="b">B</div>
+<div class="key" data-key="n">N</div>
+<div class="key" data-key="m">M</div>
+
+</div>
+
+<div class="key-row">
+
+<div class="key space" data-key=" ">
+SPACE
+</div>
+
+</div>
+
+</div>
+
+
+<div class="finger-guide">
+
+<h2>🖐️ Finger Placement Guide</h2>
+
+<div class="finger-grid">
+
+<div class="finger">
+<b>Left Pinky</b>
+<span>A • Q • Z</span>
+</div>
+
+<div class="finger">
+<b>Right Pinky</b>
+<span>; • P • /</span>
+</div>
+
+<div class="finger">
+<b>Left Ring</b>
+<span>S • W • X</span>
+</div>
+
+<div class="finger">
+<b>Right Ring</b>
+<span>L • O • .</span>
+</div>
+
+<div class="finger">
+<b>Left Middle</b>
+<span>D • E • C</span>
+</div>
+
+<div class="finger">
+<b>Right Middle</b>
+<span>K • I • ,</span>
+</div>
+
+<div class="finger">
+<b>Left Index</b>
+<span>F • R • T • G • V • B</span>
+</div>
+
+<div class="finger">
+<b>Right Index</b>
+<span>J • H • Y • U • N • M</span>
+</div>
+
+</div>
+
+<p style="margin-top:18px;color:var(--muted);">
+💡 Home Row: <b style="color:var(--accent)">
+A S D F &nbsp;&nbsp; J K L ;
+</b>
+</p>
+
+</div>
+
+<div id="result" class="result">
+
+<h2>🎉 Test Complete!</h2>
+
+<p>
+WPM:
+<strong id="finalWpm">0</strong>
+</p>
+
+<p>
+Accuracy:
+<strong id="finalAccuracy">0%</strong>
+</p>
+
+<p>
+Mistakes:
+<strong id="finalMistakes">0</strong>
+</p>
+
+</div>
+
+</section>
+
+
+<!-- ================= LEARN ================= -->
+
+<section id="learn" class="section">
+
+<h1 style="margin-bottom:20px;">
+🎓 Typing Lessons
+</h1>
+
+<div class="lessons">
+
+<div class="lesson">
+<h3>Lesson 1 — Home Row</h3>
+<p>Learn ASDF and JKL;</p>
+<button onclick="startLesson('asdf jkl;')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 2 — F & J</h3>
+<p>Learn the two index finger positions.</p>
+<button onclick="startLesson('fff jjj fff jjj')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 3 — Left Hand</h3>
+<p>Practice A S D F.</p>
+<button onclick="startLesson('asdf asdf sad fad dad')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 4 — Right Hand</h3>
+<p>Practice J K L ;.</p>
+<button onclick="startLesson('jkl; jkl; jak lad')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 5 — Upper Row</h3>
+<p>Practice QWERTY and YUIOP.</p>
+<button onclick="startLesson('qwerty yuiop qwerty yuiop')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 6 — Lower Row</h3>
+<p>Practice ZXCV and BNM.</p>
+<button onclick="startLesson('zxcv bnm zxcv bnm')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 7 — Words</h3>
+<p>Start typing real words.</p>
+<button onclick="startLesson('the quick brown fox jumps over the lazy dog')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 8 — Numbers</h3>
+<p>Practice numbers.</p>
+<button onclick="startLesson('12345 67890 12345 67890')">
+Start
+</button>
+</div>
+
+<div class="lesson">
+<h3>Lesson 9 — Full Practice</h3>
+<p>Combine everything.</p>
+<button onclick="startLesson('typing practice makes you faster and more accurate')">
+Start
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="section">
+
+<h1 style="margin-bottom:20px;">
+📊 My Dashboard
+</h1>
+
+<div class="dashboard-grid">
+
+<div class="big-card">
+<h3>BEST WPM</h3>
+<strong id="bestWpm">0</strong>
+</div>
+
+<div class="big-card">
+<h3>BEST ACCURACY</h3>
+<strong id="bestAccuracy">0%</strong>
+</div>
+
+<div class="big-card">
+<h3>TESTS</h3>
+<strong id="tests">0</strong>
+</div>
+
+<div class="big-card">
+<h3>STREAK 🔥</h3>
+<strong id="streak">0</strong>
+</div>
+
+</div>
+
+<div class="big-card" style="margin-top:20px">
+
+<h3>LEVEL PROGRESS</h3>
+
+<strong>
+Level <span id="level">1</span>
+</strong>
+
+<div class="progress">
+<div id="levelProgress"></div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ACHIEVEMENTS ================= -->
+
+<section id="achievements" class="section">
+
+<h1 style="margin-bottom:20px;">
+🏆 Achievements
+</h1>
+
+<div class="achievements">
+
+<div class="badge" id="badgeFirst">
+<div class="badge-icon">🎯</div>
+<h3>First Test</h3>
+<p>Complete your first typing test.</p>
+</div>
+
+<div class="badge" id="badge30">
+<div class="badge-icon">⚡</div>
+<h3>Speed Demon</h3>
+<p>Reach 30 WPM.</p>
+</div>
+
+<div class="badge" id="badge50">
+<div class="badge-icon">🚀</div>
+<h3>Fast Typist</h3>
+<p>Reach 50 WPM.</p>
+</div>
+
+<div class="badge" id="badge95">
+<div class="badge-icon">🎯</div>
+<h3>Accuracy Master</h3>
+<p>Reach 95% accuracy.</p>
+</div>
+
+<div class="badge" id="badge100">
+<div class="badge-icon">💯</div>
+<h3>Perfect Test</h3>
+<p>Complete a test with 100% accuracy.</p>
+</div>
+
+<div class="badge" id="badge1000">
+<div class="badge-icon">🔥</div>
+<h3>1000 XP</h3>
+<p>Earn 1000 XP.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= HISTORY ================= -->
+
+<section id="history" class="section">
+
+<h1 style="margin-bottom:20px;">
+📈 Typing History
+</h1>
+
+<table class="history">
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>WPM</th>
+<th>Accuracy</th>
+<th>Mistakes</th>
+</tr>
+
+</thead>
+
+<tbody id="historyBody"></tbody>
+
+</table>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* ================= DATA ================= */
+
+const words = `
+the be to of and a in that have I it for not on with he as you do at this but his by from they we say her she or an will my one all would there their what so up out if about who get which go me when make can like time no just him know take people into year your good some could them see other than then now look only come its over think also back after use two how our work first well way even new want because these give day most us
+keyboard typing practice learn speed accuracy computer school student technology internet website coding javascript developer improve faster better challenge
+`;
+
+let wordList = words.trim().split(/\s+/);
+
+let selectedTime = 15;
+let timeLeft = 15;
+
+let timer = null;
+let started = false;
+let finished = false;
+
+let currentText = "";
+
+let correctChars = 0;
+let totalChars = 0;
+let mistakes = 0;
+
+let startTime = null;
+
+let soundOn = true;
+
+let userData = JSON.parse(
+    localStorage.getItem("typemasterData")
+) || {
+    xp:0,
+    level:1,
+    bestWpm:0,
+    bestAccuracy:0,
+    tests:0,
+    streak:0,
+    history:[]
+};
+
+
+/* ================= SECTION ================= */
+
+function showSection(id,button){
+
+    document.querySelectorAll(".section")
+        .forEach(s => s.classList.remove("active"));
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    document.querySelectorAll(".nav button")
+        .forEach(b => b.classList.remove("active"));
+
+    button.classList.add("active");
+
+    updateDashboard();
+}
+
+
+/* ================= TEXT ================= */
+
+function generateText(){
+
+    let text="";
+
+    for(let i=0;i<100;i++){
+
+        text +=
+            wordList[
+                Math.floor(Math.random()*wordList.length)
+            ] + " ";
+    }
+
+    currentText=text.trim();
+
+    renderText();
+}
+
+
+function renderText(){
+
+    const container =
+        document.getElementById("words");
+
+    container.innerHTML="";
+
+    currentText.split("").forEach((char,index)=>{
+
+        const span=document.createElement("span");
+
+        span.textContent=char;
+        span.className="letter";
+
+        if(index===0){
+            span.classList.add("current");
+        }
+
+        container.appendChild(span);
+
+    });
+}
+
+
+/* ================= INPUT ================= */
+
+const input =
+    document.getElementById("typingInput");
+
+
+function focusInput(){
+    input.focus();
+}
+
+
+input.addEventListener("input",function(){
+
+    if(finished)return;
+
+    if(!started){
+        startTest();
+    }
+
+    const typed=input.value;
+
+    const letters=
+        document.querySelectorAll(".letter");
+
+    correctChars=0;
+    mistakes=0;
+    totalChars=typed.length;
+
+    letters.forEach((letter,index)=>{
+
+        letter.classList.remove(
+            "correct",
+            "wrong",
+            "current"
+        );
+
+        if(index<typed.length){
+
+            if(
+                typed[index] ===
+                currentText[index]
+            ){
+
+                letter.classList.add("correct");
+                correctChars++;
+
+            }else{
+
+                letter.classList.add("wrong");
+                mistakes++;
+
+            }
+
+        }
+
+        if(index===typed.length){
+
+            letter.classList.add("current");
+
+        }
+
+    });
+
+    updateStats();
+
+    highlightKeyboard(
+        typed[typed.length-1]
+    );
+
+    if(
+        typed.length >=
+        currentText.length
+    ){
+        finishTest();
+    }
+
+});
+
+
+/* ================= TIMER ================= */
+
+function startTest(){
+
+    started=true;
+    startTime=Date.now();
+
+    if(selectedTime===0)return;
+
+    timer=setInterval(()=>{
+
+        timeLeft--;
+
+        document.getElementById("time")
+            .textContent=timeLeft;
+
+        updateStats();
+
+        if(timeLeft<=0){
+
+            finishTest();
+
+        }
+
+    },1000);
+
+}
+
+
+/* ================= STATS ================= */
+
+function updateStats(){
+
+    let elapsed;
+
+    if(started){
+        elapsed =
+            Math.max(
+                (Date.now()-startTime)/1000,
+                1
+            );
+    }else{
+        elapsed=1;
+    }
+
+    const minutes=elapsed/60;
+
+    const wpm=
+        Math.round(
+            (correctChars/5)/minutes
+        );
+
+    const accuracy=
+        totalChars>0
+        ? Math.round(
+            correctChars/
+            totalChars*100
+        )
+        : 100;
+
+    document.getElementById("wpm")
+        .textContent=Math.max(wpm,0);
+
+    document.getElementById("accuracy")
+        .textContent=accuracy+"%";
+
+    document.getElementById("mistakes")
+        .textContent=mistakes;
+
+    document.getElementById("xp")
+        .textContent=userData.xp;
+
+}
+
+
+/* ================= FINISH ================= */
+
+function finishTest(){
+
+    if(finished)return;
+
+    finished=true;
+
+    clearInterval(timer);
+
+    updateStats();
+
+    const wpm=
+        Number(
+            document.getElementById("wpm")
+            .textContent
+        );
+
+    const accuracy=
+        Number(
+            document.getElementById("accuracy")
+            .textContent
+            .replace("%","")
+        );
+
+    const now=
+        new Date().toLocaleString();
+
+    userData.tests++;
+
+    userData.xp +=
+        Math.max(
+            10,
+            Math.round(wpm*2)
+        );
+
+    if(wpm>userData.bestWpm){
+        userData.bestWpm=wpm;
+    }
+
+    if(
+        accuracy>
+        userData.bestAccuracy
+    ){
+        userData.bestAccuracy=accuracy;
+    }
+
+    userData.history.unshift({
+
+        date:now,
+        wpm:wpm,
+        accuracy:accuracy,
+        mistakes:mistakes
+
+    });
+
+    userData.history=
+        userData.history.slice(0,30);
+
+    calculateLevel();
+
+    saveData();
+
+    document.getElementById("finalWpm")
+        .textContent=wpm;
+
+    document.getElementById("finalAccuracy")
+        .textContent=accuracy+"%";
+
+    document.getElementById("finalMistakes")
+        .textContent=mistakes;
+
+    document.getElementById("result")
+        .style.display="block";
+
+    updateDashboard();
+
+    updateAchievements();
+
+}
+
+
+/* ================= RESTART ================= */
+
+function restartTest(){
+
+    clearInterval(timer);
+
+    started=false;
+    finished=false;
+
+    correctChars=0;
+    totalChars=0;
+    mistakes=0;
+
+    timeLeft=selectedTime;
+
+    input.value="";
+
+    document.getElementById("time")
+        .textContent=selectedTime;
+
+    document.getElementById("wpm")
+        .textContent="0";
+
+    document.getElementById("accuracy")
+        .textContent="100%";
+
+    document.getElementById("mistakes")
+        .textContent="0";
+
+    document.getElementById("result")
+        .style.display="none";
+
+    generateText();
+
+    input.focus();
+
+}
+
+
+function newText(){
+    restartTest();
+}
+
+
+/* ================= TIME BUTTONS ================= */
+
+document.querySelectorAll(".mode-btn")
+.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        document.querySelectorAll(".mode-btn")
+        .forEach(b=>b.classList.remove("active"));
+
+        button.classList.add("active");
+
+        selectedTime=
+            Number(button.dataset.time);
+
+        restartTest();
+
+    });
+
+});
+
+
+/* ================= KEYBOARD ================= */
+
+function highlightKeyboard(key){
+
+    document.querySelectorAll(".key")
+        .forEach(k=>{
+            k.classList.remove("active-key");
+        });
+
+    if(!key)return;
+
+    const el=
+        document.querySelector(
+            `[data-key="${CSS.escape(key.toLowerCase())}"]`
+        );
+
+    if(el){
+        el.classList.add("active-key");
+    }
+
+}
+
+
+/* ================= KEYBOARD EVENTS ================= */
+
+document.addEventListener("keydown",e=>{
+
+    const key=e.key.toLowerCase();
+
+    const el=
+        document.querySelector(
+            `[data-key="${CSS.escape(key)}"]`
+        );
+
+    if(el){
+
+        el.classList.add("active-key");
+
+        setTimeout(()=>{
+            el.classList.remove("active-key");
+        },120);
+
+    }
+
+});
+
+
+/* ================= LESSON ================= */
+
+function startLesson(text){
+
+    currentText=text;
+
+    selectedTime=0;
+
+    timeLeft=0;
+
+    document.querySelectorAll(".mode-btn")
+        .forEach(b=>b.classList.remove("active"));
+
+    document.querySelector(
+        '.mode-btn[data-time="0"]'
+    ).classList.add("active");
+
+    showTestSection();
+
+    restartTest();
+
+}
+
+
+/* ================= SHOW TEST ================= */
+
+function showTestSection(){
+
+    document.querySelectorAll(".section")
+        .forEach(s=>s.classList.remove("active"));
+
+    document.getElementById("test")
+        .classList.add("active");
+
+    document.querySelectorAll(".nav button")
+        .forEach(b=>b.classList.remove("active"));
+
+    document.querySelector(".nav button")
+        .classList.add("active");
+
+}
+
+
+/* ================= LEVEL ================= */
+
+function calculateLevel(){
+
+    userData.level=
+        Math.floor(
+            userData.xp/500
+        )+1;
+
+}
+
+
+/* ================= DASHBOARD ================= */
+
+function updateDashboard(){
+
+    document.getElementById("bestWpm")
+        .textContent=userData.bestWpm;
+
+    document.getElementById("bestAccuracy")
+        .textContent=
+        userData.bestAccuracy+"%";
+
+    document.getElementById("tests")
+        .textContent=userData.tests;
+
+    document.getElementById("streak")
+        .textContent=userData.streak;
+
+    document.getElementById("level")
+        .textContent=userData.level;
+
+    let progress=
+        (userData.xp%500)/5;
+
+    document.getElementById("levelProgress")
+        .style.width=
+        progress+"%";
+
+    document.getElementById("xp")
+        .textContent=userData.xp;
+
+    updateHistory();
+
+}
+
+
+/* ================= HISTORY ================= */
+
+function updateHistory(){
+
+    const body=
+        document.getElementById("historyBody");
+
+    body.innerHTML="";
+
+    userData.history.forEach(item=>{
+
+        const row=document.createElement("tr");
+
+        row.innerHTML=`
+
+        <td>${item.date}</td>
+
+        <td>${item.wpm} WPM</td>
+
+        <td>${item.accuracy}%</td>
+
+        <td>${item.mistakes}</td>
+
+        `;
+
+        body.appendChild(row);
+
+    });
+
+}
+
+
+/* ================= ACHIEVEMENTS ================= */
+
+function updateAchievements(){
+
+    if(userData.tests>=1){
+
+        document.getElementById("badgeFirst")
+            .classList.remove("locked");
+
+    }
+
+    if(userData.bestWpm>=30){
+
+        document.getElementById("badge30")
+            .classList.remove("locked");
+
+    }
+
+    if(userData.bestWpm>=50){
+
+        document.getElementById("badge50")
+            .classList.remove("locked");
+
+    }
+
+    if(userData.bestAccuracy>=95){
+
+        document.getElementById("badge95")
+            .classList.remove("locked");
+
+    }
+
+    if(userData.bestAccuracy>=100){
+
+        document.getElementById("badge100")
+            .classList.remove("locked");
+
+    }
+
+    if(userData.xp>=1000){
+
+        document.getElementById("badge1000")
+            .classList.remove("locked");
+
+    }
+
+}
+
+
+/* ================= THEME ================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    if(
+        document.body.classList.contains("light")
+    ){
+
+        document.documentElement.style.setProperty(
+            "--bg","#f3f4f6"
+        );
+
+        document.documentElement.style.setProperty(
+            "--panel","#ffffff"
+        );
+
+        document.documentElement.style.setProperty(
+            "--panel2","#e8eaed"
+        );
+
+        document.documentElement.style.setProperty(
+            "--text","#151515"
+        );
+
+        document.documentElement.style.setProperty(
+            "--muted","#555"
+        );
+
+    }else{
+
+        document.documentElement.style.setProperty(
+            "--bg","#101214"
+        );
+
+        document.documentElement.style.setProperty(
+            "--panel","#181b1f"
+        );
+
+        document.documentElement.style.setProperty(
+            "--panel2","#20242a"
+        );
+
+        document.documentElement.style.setProperty(
+            "--text","#e8eaed"
+        );
+
+        document.documentElement.style.setProperty(
+            "--muted","#858b94"
+        );
+
+    }
+
+}
+
+
+/* ================= SOUND ================= */
+
+function toggleSound(){
+
+    soundOn=!soundOn;
+
+    alert(
+        "Sound " +
+        (soundOn ? "ON 🔊" : "OFF 🔇")
+    );
+
+}
+
+
+/* ================= SAVE ================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "typemasterData",
+        JSON.stringify(userData)
+    );
+
+}
+
+
+/* ================= START ================= */
+
+generateText();
+
+updateDashboard();
+
+updateAchievements();
+
+input.focus();
+
+</script>
+
+</body>
+</html>
